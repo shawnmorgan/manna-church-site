@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run build:studio && astro build && npm run copy:studio",
+    "build:studio": "cd studio && npm install && npm run build",
+    "copy:studio": "mkdir -p dist/studio && cp -r studio/dist/* dist/studio/",
     "preview": "astro preview",
     "astro": "astro"
   },

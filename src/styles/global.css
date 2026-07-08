@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/**
+ * Manna Church Design Tokens
+ * Source: DESIGN.md
+ * Orange and white creamsicle, not orange and black halloween.
+ */
+
+@theme {
+  /* ============================================
+     BRAND COLORS
+     ============================================ */
+
+  /* Core brand */
+  --color-manna-orange: #F37321;
+  --color-manna-white: #FFFFFF;
+  --color-manna-black: #222222;
+  --color-manna-dark-gray: #343433;
+  --color-manna-light-gray: #808184;
+
+  /* Ministry accents */
+  --color-worldchangers-blue: #00B5EF;
+  --color-outreach-red: #D92929;
+
+  /* Orange ramp */
+  --color-orange-50: #FFF5EF;
+  --color-orange-100: #FFE8D6;
+  --color-orange-200: #FFD1AD;
+  --color-orange-300: #FFB684;
+  --color-orange-400: #FF9B5B;
+  --color-orange-500: #F37321;
+  --color-orange-600: #EF6207;
+  --color-orange-700: #CC5206;
+  --color-orange-800: #A94305;
+  --color-orange-900: #863503;
+
+  /* Neutral ramp */
+  --color-gray-0: #FFFFFF;
+  --color-gray-50: #FAFAFA;
+  --color-gray-100: #F5F5F5;
+  --color-gray-200: #E5E5E5;
+  --color-gray-300: #D9D9DA;
+  --color-gray-400: #BFBFC1;
+  --color-gray-500: #808184;
+  --color-gray-600: #555555;
+  --color-gray-700: #343433;
+  --color-gray-800: #2E2E2E;
+  --color-gray-900: #222222;
+
+  /* ============================================
+     SPACING (8px base grid)
+     ============================================ */
+
+  --spacing-1: 0.25rem;    /* 4px */
+  --spacing-2: 0.5rem;     /* 8px */
+  --spacing-3: 0.75rem;    /* 12px */
+  --spacing-4: 1rem;       /* 16px */
+  --spacing-5: 1.5rem;     /* 24px */
+  --spacing-6: 2rem;       /* 32px */
+  --spacing-7: 2.5rem;     /* 40px */
+  --spacing-8: 3rem;       /* 48px */
+  --spacing-9: 4rem;       /* 64px */
+  --spacing-10: 5rem;      /* 80px */
+  --spacing-11: 6rem;      /* 96px */
+  --spacing-12: 8rem;      /* 128px */
+
+  /* ============================================
+     RADIUS (sharp, 2-6px max)
+     ============================================ */
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-DEFAULT: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+  --radius-2xl: 6px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+  /* Font families */
+  --font-display: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-condensed: 'Archivo Narrow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-black: 'Archivo Black', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Type scale */
+  --font-size-2xs: 0.6875rem;    /* 11px */
+  --font-size-xs: 0.75rem;       /* 12px */
+  --font-size-sm: 0.875rem;      /* 14px */
+  --font-size-base: 1rem;        /* 16px */
+  --font-size-lg: 1.125rem;      /* 18px */
+  --font-size-xl: 1.375rem;      /* 22px */
+  --font-size-2xl: 1.75rem;      /* 28px */
+  --font-size-3xl: 2.25rem;      /* 36px */
+  --font-size-4xl: 3rem;         /* 48px */
+  --font-size-5xl: 4rem;         /* 64px */
+  --font-size-6xl: 5.5rem;       /* 88px */
+  --font-size-7xl: 7rem;         /* 112px */
+  --font-size-8xl: 9rem;         /* 144px */
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-body);
+    background: var(--color-manna-black);
+    color: var(--color-manna-white);
+    overflow-x: hidden;
+  }
+
+  /* Focus visible (accessibility) */
+  *:focus-visible {
+    outline: 3px solid var(--color-worldchangers-blue);
+    outline-offset: 2px;
+  }
+
+  /* Brand rule utility */
+  .brand-rule {
+    width: 48px;
+    height: 4px;
+    background-color: var(--color-manna-orange);
+  }
+
+  /* Typography utilities */
+  .u-display-hero {
+    font-family: var(--font-black);
+    font-weight: 900;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .u-eyebrow {
+    font-family: var(--font-condensed);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .u-outline-text {
+    color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: currentColor;
+    paint-order: stroke fill;
+  }
+}
+
+@layer utilities {
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

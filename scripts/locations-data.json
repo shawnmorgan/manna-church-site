@@ -1,0 +1,116 @@
+{
+  "sites": [
+    {
+      "title": "Kapolei, HI",
+      "type": "Site",
+      "link": "https://manna.church/church/kapolei-hi/"
+    },
+    {
+      "title": "Colorado Springs, CO",
+      "type": "Site",
+      "link": "https://manna.church/church/colorado-springs-co/"
+    },
+    {
+      "title": "Fayetteville/Ft. Bragg",
+      "type": "Site",
+      "link": "https://manna.church/church/fayetteville-ft-bragg-nc/"
+    },
+    {
+      "title": "Fuquay-Varina, NC",
+      "type": "Site",
+      "link": "https://manna.church/church/fuquay-varina-nc/"
+    },
+    {
+      "title": "High Point, NC",
+      "type": "Site",
+      "link": "https://manna.church/church/high-point-nc/"
+    },
+    {
+      "title": "Sanford, NC",
+      "type": "Site",
+      "link": "https://manna.church/church/sanford-nc/"
+    },
+    {
+      "title": "Newport News, VA",
+      "type": "Site",
+      "link": "https://manna.church/church/newport-news-va/"
+    },
+    {
+      "title": "Stafford, VA",
+      "type": "Site",
+      "link": "https://manna.church/church/stafford-quantico-va/"
+    },
+    {
+      "title": "Niceville, FL",
+      "type": "Site",
+      "link": "https://manna.church/church/niceville-fl/"
+    },
+    {
+      "title": "Killeen, TX",
+      "type": "Site",
+      "link": "https://manna.church/church/manna-church-killeen/"
+    },
+    {
+      "title": "Picatinny Arsenal, NJ",
+      "type": "Site",
+      "link": "https://manna.church/church/picatinny-arsenal-nj/"
+    },
+    {
+      "title": "Clarksville, TN",
+      "type": "Site",
+      "link": "https://manna.church/church/clarksville-tn/"
+    }
+  ],
+  "microSites": [
+    {
+      "title": "Ft. Leonard Wood, MO",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/ft-leonard-wood-mo/"
+    },
+    {
+      "title": "Ft. Polk, LA",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/ft-polk-la/"
+    },
+    {
+      "title": "Ft. Knox, KY",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/ft-knox-ky/"
+    },
+    {
+      "title": "Weiden, Germany",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/weiden-germany/"
+    },
+    {
+      "title": "Quantico, VA",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/1165/"
+    },
+    {
+      "title": "Chesapeake, VA",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/1395/"
+    },
+    {
+      "title": "Ft. Meade",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/ft-meade/"
+    },
+    {
+      "title": "Ft. Sill",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/ft-sill/"
+    },
+    {
+      "title": "Monterey, CA",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/monterey-ca/"
+    },
+    {
+      "title": "Omaha, NE",
+      "type": "Micro-Site",
+      "link": "https://manna.church/church/omaha-ne/"
+    }
+  ]
+}

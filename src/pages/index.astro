@@ -1,17 +1,78 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero';
+import LocationSearch from '../components/LocationSearch';
+import VideoSection from '../components/VideoSection';
+import ThreeThings from '../components/ThreeThings';
+import MannaApp from '../components/MannaApp';
+import Footer from '../components/Footer';
+import {sanityFetch} from '../lib/sanity';
 
+// Check if we're in preview mode
+const isPreview = Astro.cookies.get('preview')?.value === 'true';
+
+// Fetch homepage content from Sanity
+const homeContent = await sanityFetch({
+  query: `*[_type == "siteContent" && _id == "homepage"][0] {
+    _id,
+    heroTitle,
+    heroSubtitle,
+    "heroBackgroundImage": heroBackgroundImage.asset->url,
+    "heroLogo": heroLogo.asset->url,
+    threeThingsTitle,
+    threeThingsDescription,
+    threeThingsCards[] {
+      eyebrow,
+      title,
+      body,
+      "icon": icon.asset->url
+    },
+    appTitle,
+    appSubtitle,
+    appFeatures[] {
+      feature
+    },
+    "appMockupImage": appMockupImage.asset->url,
+    appStoreUrl,
+    playStoreUrl
+  }`,
+  preview: isPreview,
+}).catch(() => null);
+
+// Fetch locations for the search section
+const locations = await sanityFetch({
+  query: `*[_type == "location"] | order(name asc) {
+    _id,
+    name,
+    slug,
+    type,
+    city,
+    state,
+    "image": featuredImage.asset->url
+  }`,
+  preview: isPreview,
+}).catch(() => []);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <main>
+    <Hero
+      client:load
+      content={homeContent}
+    />
+    <LocationSearch
+      client:load
+      locations={locations}
+    />
+    <VideoSection client:load />
+    <ThreeThings
+      client:load
+      content={homeContent}
+    />
+    <MannaApp
+      client:load
+      content={homeContent}
+    />
+    <Footer client:load />
+  </main>
+</BaseLayout>

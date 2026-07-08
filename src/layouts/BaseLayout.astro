@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import VisualEditing from '../components/VisualEditing';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Manna Church - A Vision to Change the World',
+  description = 'Our mission is to glorify God by equipping His people to change their world and by planting churches with the same world-changing vision.'
+} = Astro.props;
+
+// Check if we're in preview mode
+const isPreview = Astro.cookies.get('preview')?.value === 'true';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <title>{title}</title>
+
+  <!-- Google Fonts: Archivo family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <slot />
+  {isPreview && <VisualEditing client:only="react" />}
+</body>
+</html>

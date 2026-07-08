@@ -1,0 +1,201 @@
+[
+  {
+    "id": "1",
+    "name": "Fayetteville",
+    "state": "NC",
+    "city": "Fayetteville",
+    "type": "City Site",
+    "image": "/assets/images/locations/fayetteville-ft-bragg.jpg",
+    "link": "https://manna.church/church/fayetteville-ft-bragg-nc/",
+    "badge": "Central"
+  },
+  {
+    "id": "2",
+    "name": "Sanford",
+    "state": "NC",
+    "city": "Sanford",
+    "type": "City Site",
+    "image": "/assets/images/locations/sanford-nc.jpg",
+    "link": "https://manna.church/church/sanford-nc/"
+  },
+  {
+    "id": "3",
+    "name": "Niceville",
+    "state": "FL",
+    "city": "Niceville",
+    "type": "City Site",
+    "image": "/assets/images/locations/niceville-fl.jpg",
+    "link": "https://manna.church/church/niceville-fl/"
+  },
+  {
+    "id": "4",
+    "name": "High Point",
+    "state": "NC",
+    "city": "High Point",
+    "type": "City Site",
+    "image": "/assets/images/locations/high-point-nc.jpg",
+    "link": "https://manna.church/church/high-point-nc/"
+  },
+  {
+    "id": "5",
+    "name": "Fuquay-Varina",
+    "state": "NC",
+    "city": "Fuquay-Varina",
+    "type": "City Site",
+    "image": "/assets/images/locations/fuquay-varina-nc.jpg",
+    "link": "https://manna.church/church/fuquay-varina-nc/"
+  },
+  {
+    "id": "6",
+    "name": "Newport News",
+    "state": "VA",
+    "city": "Newport News",
+    "type": "City Site",
+    "image": "/assets/images/locations/newport-news-va.jpg",
+    "link": "https://manna.church/church/newport-news-va/"
+  },
+  {
+    "id": "7",
+    "name": "Stafford",
+    "state": "VA",
+    "city": "Stafford",
+    "type": "City Site",
+    "image": "/assets/images/locations/stafford-va.jpg",
+    "link": "https://manna.church/church/stafford-quantico-va/"
+  },
+  {
+    "id": "8",
+    "name": "Clarksville",
+    "state": "TN",
+    "city": "Clarksville",
+    "type": "City Site",
+    "image": "/assets/images/locations/clarksville-tn.jpg",
+    "link": "https://manna.church/church/clarksville-tn/"
+  },
+  {
+    "id": "9",
+    "name": "Killeen",
+    "state": "TX",
+    "city": "Killeen",
+    "type": "City Site",
+    "image": "/assets/images/locations/killeen-tx.jpg",
+    "link": "https://manna.church/church/manna-church-killeen/"
+  },
+  {
+    "id": "10",
+    "name": "Kapolei",
+    "state": "HI",
+    "city": "Kapolei",
+    "type": "City Site",
+    "image": "/assets/images/locations/kapolei-hi.jpg",
+    "link": "https://manna.church/church/kapolei-hi/"
+  },
+  {
+    "id": "11",
+    "name": "Colorado Springs",
+    "state": "CO",
+    "city": "Colorado Springs",
+    "type": "City Site",
+    "image": "/assets/images/locations/colorado-springs-co.jpg",
+    "link": "https://manna.church/church/colorado-springs-co/"
+  },
+  {
+    "id": "12",
+    "name": "Picatinny Arsenal",
+    "state": "NJ",
+    "city": "Picatinny Arsenal",
+    "type": "City Site",
+    "image": "/assets/images/locations/picatinny-arsenal-nj.jpg",
+    "link": "https://manna.church/church/picatinny-arsenal-nj/"
+  },
+  {
+    "id": "13",
+    "name": "Ft. Leonard Wood",
+    "state": "MO",
+    "city": "Ft. Leonard Wood",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/ft-leonard-wood-mo.jpg",
+    "link": "https://manna.church/church/ft-leonard-wood-mo/"
+  },
+  {
+    "id": "14",
+    "name": "Ft. Polk",
+    "state": "LA",
+    "city": "Ft. Polk",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/ft-polk-la.jpg",
+    "link": "https://manna.church/church/ft-polk-la/"
+  },
+  {
+    "id": "15",
+    "name": "Ft. Knox",
+    "state": "KY",
+    "city": "Ft. Knox",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/ft-knox-ky.jpg",
+    "link": "https://manna.church/church/ft-knox-ky/"
+  },
+  {
+    "id": "16",
+    "name": "Weiden",
+    "state": "Germany",
+    "city": "Weiden",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/weiden-germany.jpg",
+    "link": "https://manna.church/church/weiden-germany/"
+  },
+  {
+    "id": "17",
+    "name": "Quantico",
+    "state": "VA",
+    "city": "Quantico",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/quantico-va.jpg",
+    "link": "https://manna.church/church/1165/"
+  },
+  {
+    "id": "18",
+    "name": "Chesapeake",
+    "state": "VA",
+    "city": "Chesapeake",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/chesapeake-va.jpg",
+    "link": "https://manna.church/church/1395/"
+  },
+  {
+    "id": "19",
+    "name": "Ft. Meade",
+    "state": "MD",
+    "city": "Ft. Meade",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/ft-meade.jpg",
+    "link": "https://manna.church/church/ft-meade/"
+  },
+  {
+    "id": "20",
+    "name": "Ft. Sill",
+    "state": "OK",
+    "city": "Ft. Sill",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/ft-sill.jpg",
+    "link": "https://manna.church/church/ft-sill/"
+  },
+  {
+    "id": "21",
+    "name": "Monterey",
+    "state": "CA",
+    "city": "Monterey",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/monterey-ca.jpg",
+    "link": "https://manna.church/church/monterey-ca/"
+  },
+  {
+    "id": "22",
+    "name": "Omaha",
+    "state": "NE",
+    "city": "Omaha",
+    "type": "Micro-Site",
+    "image": "/assets/images/locations/omaha-ne.jpg",
+    "link": "https://manna.church/church/omaha-ne/"
+  }
+]

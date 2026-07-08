@@ -1,12 +1,12 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/studio",
-      "destination": "/studio/index.html"
+      "src": "/studio/(.*)",
+      "dest": "/studio/$1"
     },
     {
-      "source": "/studio/:path*",
-      "destination": "/studio/:path*"
+      "src": "/static/(.*)",
+      "dest": "/studio/static/$1"
     }
   ]
 }

@@ -19,6 +19,9 @@ const homeContent = await sanityFetch({
     heroSubtitle,
     "heroBackgroundImage": heroBackgroundImage.asset->url,
     "heroLogo": heroLogo.asset->url,
+    "heroCollageImages": heroCollageImages[].asset->url,
+    "videoUrl": videoUrl.asset->url,
+    videoText,
     threeThingsTitle,
     threeThingsDescription,
     threeThingsCards[] {
@@ -64,7 +67,10 @@ const locations = await sanityFetch({
       client:load
       locations={locations}
     />
-    <VideoSection client:load />
+    <VideoSection
+      client:load
+      content={homeContent}
+    />
     <ThreeThings
       client:load
       content={homeContent}

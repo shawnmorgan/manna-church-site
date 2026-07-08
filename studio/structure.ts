@@ -1,5 +1,5 @@
 import {StructureBuilder} from 'sanity/structure'
-import {HomeIcon, PinIcon, CogIcon} from '@sanity/icons'
+import {HomeIcon, PinIcon, CogIcon, ImagesIcon} from '@sanity/icons'
 
 export const structure = (S: StructureBuilder) =>
   S.list()
@@ -32,6 +32,19 @@ export const structure = (S: StructureBuilder) =>
                 .documentId(documentId)
                 .schemaType('location')
             )
+        ),
+
+      // Divider
+      S.divider(),
+
+      // Media Library
+      S.listItem()
+        .title('Media Library')
+        .icon(ImagesIcon)
+        .child(
+          S.documentTypeList('sanity.imageAsset')
+            .title('All Images')
+            .filter('_type == "sanity.imageAsset"')
         ),
 
       // Divider

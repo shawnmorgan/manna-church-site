@@ -78,17 +78,34 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-export default function Hero() {
+interface HeroProps {
+  content?: {
+    heroTitle?: string;
+    heroSubtitle?: string;
+    heroCollageImages?: string[];
+  };
+}
+
+export default function Hero({ content }: HeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Randomly select 12 images on component mount (8 large + 4 small for depth)
+  // Use Sanity images if available, otherwise fallback to random selection from hardcoded images
   const floatingImages: FloatingImage[] = useMemo(() => {
-    const randomImages = shuffleArray(COLLAGE_IMAGES).slice(0, 12);
+    let imageSources: string[];
+
+    if (content?.heroCollageImages && content.heroCollageImages.length >= 12) {
+      // Shuffle Sanity images and take 12
+      imageSources = shuffleArray(content.heroCollageImages).slice(0, 12);
+    } else {
+      // Fallback to hardcoded images
+      imageSources = shuffleArray(COLLAGE_IMAGES).slice(0, 12).map(img => `/assets/images/collage/${img}`);
+    }
+
     return IMAGE_POSITIONS.map((pos, index) => ({
       ...pos,
-      src: `/assets/images/collage/${randomImages[index]}`,
+      src: imageSources[index],
     }));
-  }, []);
+  }, [content?.heroCollageImages]);
 
   useEffect(() => {
     // Trigger animations after component mounts

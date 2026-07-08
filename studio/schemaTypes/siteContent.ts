@@ -13,6 +13,10 @@ export default defineType({
       default: true,
     },
     {
+      name: 'video',
+      title: 'Video Section',
+    },
+    {
       name: 'threeThings',
       title: 'Three Things',
     },
@@ -74,6 +78,49 @@ export default defineType({
         },
       ],
       group: 'hero',
+    }),
+    defineField({
+      name: 'heroCollageImages',
+      title: 'Hero Collage Images',
+      type: 'array',
+      description: '💡 Tip: Drag & drop multiple images at once or click "Select" to upload in batch. 12 images recommended for best effect.',
+      options: {
+        layout: 'grid',
+      },
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+              description: 'Brief description of the image for accessibility',
+            },
+          ],
+        },
+      ],
+      group: 'hero',
+    }),
+
+    // Video Section
+    defineField({
+      name: 'videoUrl',
+      title: 'Video URL',
+      type: 'file',
+      description: 'Upload video file or use external URL',
+      group: 'video',
+    }),
+    defineField({
+      name: 'videoText',
+      title: 'Video Description Text',
+      type: 'text',
+      rows: 4,
+      description: 'Text displayed below the video',
+      group: 'video',
     }),
 
     // Three Things Section

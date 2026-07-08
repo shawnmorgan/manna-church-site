@@ -10,7 +10,17 @@ interface Feature {
   text: string;
 }
 
-export default function MannaApp() {
+interface MannaAppProps {
+  content?: {
+    appTitle?: string;
+    appSubtitle?: string;
+    appFeatures?: Array<{ feature: string }>;
+    appStoreUrl?: string;
+    playStoreUrl?: string;
+  };
+}
+
+export default function MannaApp({ content }: MannaAppProps) {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -33,12 +43,33 @@ export default function MannaApp() {
     return () => observer.disconnect();
   }, []);
 
-  const features: Feature[] = [
+  // Default features
+  const defaultFeatures: Feature[] = [
     { icon: '/assets/icons/play.svg', text: 'Watch sermons on demand' },
     { icon: '/assets/icons/bell.svg', text: 'Get event reminders' },
     { icon: '/assets/icons/users.svg', text: 'Connect with your group' },
     { icon: '/assets/icons/credit-card.svg', text: 'Give online easily' },
   ];
+
+  // Map Sanity features to component format
+  const featureIcons = [
+    '/assets/icons/play.svg',
+    '/assets/icons/bell.svg',
+    '/assets/icons/users.svg',
+    '/assets/icons/credit-card.svg',
+  ];
+
+  const features: Feature[] = content?.appFeatures
+    ? content.appFeatures.map((f, i) => ({
+        icon: featureIcons[i] || featureIcons[0],
+        text: f.feature,
+      }))
+    : defaultFeatures;
+
+  const title = content?.appTitle || 'Manna On the Move';
+  const subtitle = content?.appSubtitle || 'Download the Manna Church app and stay connected to your community.';
+  const appStoreUrl = content?.appStoreUrl || 'https://apps.apple.com/app/manna-church';
+  const playStoreUrl = content?.playStoreUrl || 'https://play.google.com/store/apps/details?id=com.mannachurch';
 
   return (
     <section
@@ -137,7 +168,7 @@ export default function MannaApp() {
             transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s',
           }}
         >
-          Manna On the Move
+          {title}
         </h2>
 
         <p
@@ -152,7 +183,7 @@ export default function MannaApp() {
             transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s',
           }}
         >
-          Download the Manna Church app and stay connected to your community.
+          {subtitle}
         </p>
 
         {/* Feature bullets */}
@@ -213,7 +244,9 @@ export default function MannaApp() {
           }}
         >
           <a
-            href="#"
+            href={appStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-block',
               transition: 'opacity 0.2s',
@@ -235,7 +268,9 @@ export default function MannaApp() {
             />
           </a>
           <a
-            href="#"
+            href={playStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-block',
               transition: 'opacity 0.2s',

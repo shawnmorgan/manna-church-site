@@ -2,7 +2,17 @@
  * Video Section Component - Military Highway Story
  */
 
-export default function VideoSection() {
+interface VideoSectionProps {
+  content?: {
+    videoUrl?: string;
+    videoText?: string;
+  };
+}
+
+export default function VideoSection({ content }: VideoSectionProps) {
+  const videoUrl = content?.videoUrl || '/assets/videos/homepage-video.mp4';
+  const videoText = content?.videoText ||
+    `Manna Church has been serving military communities for over 40 years and is strategically planting expressions of Manna Church along the Military Highway. We believe that the Church exists wherever God's people gather. An expression of Manna Church could meet in its own designated building, a local school or gym, a home, or even online.`;
   return (
     <section
       className="w-full flex items-center justify-center"
@@ -37,7 +47,7 @@ export default function VideoSection() {
           }}
         >
           <video
-            src="/assets/videos/homepage-video.mp4"
+            src={videoUrl}
             autoPlay
             loop
             muted
@@ -63,11 +73,7 @@ export default function VideoSection() {
             maxWidth: '900px',
           }}
         >
-          Manna Church has been serving military communities for over 40 years and is
-          strategically planting expressions of Manna Church along the Military Highway. We
-          believe that the Church exists wherever God's people gather. An expression of Manna
-          Church could meet in its own designated building, a local school or gym, a home, or
-          even online.
+          {videoText}
         </p>
       </div>
     </section>

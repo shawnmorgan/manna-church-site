@@ -1,12 +1,31 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/studio/(.*)",
-      "dest": "/studio/$1"
+      "source": "/static/:path*",
+      "destination": "/studio/static/:path*"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/studio/static/$1"
+      "source": "/vendor/:path*",
+      "destination": "/studio/vendor/:path*"
+    },
+    {
+      "source": "/studio",
+      "destination": "/studio/index.html"
+    },
+    {
+      "source": "/studio/:path*",
+      "destination": "/studio/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/studio/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 }

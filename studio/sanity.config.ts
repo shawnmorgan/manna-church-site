@@ -15,7 +15,7 @@ export default defineConfig({
   projectId: process.env.SANITY_STUDIO_PROJECT_ID || '',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
-  basePath: '/studio',
+  basePath: process.env.SANITY_STUDIO_BASE_PATH || '/studio',
 
   plugins: [
     structureTool({

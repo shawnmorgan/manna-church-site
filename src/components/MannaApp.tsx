@@ -1,9 +1,29 @@
 /**
  * MannaApp Section Component - Pixel-perfect from Figma
+ * Fully responsive for mobile, tablet, and desktop
  * Node ID: 56:182
  */
 
 import { useEffect, useRef, useState } from 'react';
+
+// Hook to detect screen size
+function useMediaQuery() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  return { isMobile, isTablet };
+}
 
 interface Feature {
   icon: string;
@@ -21,6 +41,7 @@ interface MannaAppProps {
 }
 
 export default function MannaApp({ content }: MannaAppProps) {
+  const { isMobile, isTablet } = useMediaQuery();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -74,13 +95,13 @@ export default function MannaApp({ content }: MannaAppProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full flex items-center"
+      className={`relative w-full flex ${isMobile || isTablet ? 'flex-col' : ''} items-center`}
       style={{
-        paddingTop: '60px',
-        paddingLeft: '64px',
-        paddingRight: '64px',
-        paddingBottom: '140px',
-        gap: '64px',
+        paddingTop: isMobile ? '40px' : isTablet ? '50px' : '60px',
+        paddingLeft: isMobile ? '24px' : isTablet ? '32px' : '64px',
+        paddingRight: isMobile ? '24px' : isTablet ? '32px' : '64px',
+        paddingBottom: isMobile ? '80px' : isTablet ? '100px' : '140px',
+        gap: isMobile ? '40px' : isTablet ? '48px' : '64px',
       }}
     >
       {/* Background */}
@@ -109,14 +130,15 @@ export default function MannaApp({ content }: MannaAppProps) {
       <div
         className="relative flex-shrink-0"
         style={{
-          width: '520px',
-          height: '744px',
-          marginTop: '-130px',
-          borderRadius: '40px',
+          width: isMobile ? '280px' : isTablet ? '360px' : '520px',
+          height: isMobile ? '400px' : isTablet ? '515px' : '744px',
+          marginTop: isMobile ? '0' : isTablet ? '-60px' : '-130px',
+          borderRadius: isMobile ? '24px' : isTablet ? '32px' : '40px',
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? 'translateX(0)' : 'translateX(-60px)',
           transition: 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s',
           zIndex: 10,
+          alignSelf: isMobile || isTablet ? 'center' : 'auto',
         }}
       >
         <div
@@ -158,7 +180,7 @@ export default function MannaApp({ content }: MannaAppProps) {
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 800,
-            fontSize: '52px',
+            fontSize: isMobile ? '36px' : isTablet ? '44px' : '52px',
             lineHeight: '1.05',
             letterSpacing: '-1.04px',
             color: 'white',
@@ -175,7 +197,7 @@ export default function MannaApp({ content }: MannaAppProps) {
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 400,
-            fontSize: '18px',
+            fontSize: isMobile ? '16px' : '18px',
             lineHeight: '1.6',
             color: 'rgba(255, 255, 255, 0.7)',
             opacity: isVisible ? 1 : 0,

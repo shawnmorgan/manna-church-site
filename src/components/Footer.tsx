@@ -1,14 +1,35 @@
 /**
  * Footer Component
+ * Fully responsive for mobile, tablet, and desktop
  */
 
 import { useEffect, useRef, useState } from 'react';
+
+// Hook to detect screen size
+function useMediaQuery() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  return { isMobile, isTablet };
+}
 
 interface LinkColumn {
   links: string[];
 }
 
 export default function Footer() {
+  const { isMobile, isTablet } = useMediaQuery();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -42,34 +63,36 @@ export default function Footer() {
       style={{
         backgroundColor: '#1a1a1a',
         zIndex: 1,
-        marginTop: '-200px',
+        marginTop: isMobile ? '-100px' : isTablet ? '-140px' : '-200px',
       }}
     >
 
       {/* Part 1: Links section with left space for phone */}
       <div
-        className="relative w-full flex"
+        className={`relative w-full flex ${isMobile || isTablet ? 'flex-col' : ''}`}
         style={{
-          paddingTop: '140px',
-          paddingBottom: '60px',
-          paddingLeft: '64px',
-          paddingRight: '64px',
+          paddingTop: isMobile ? '80px' : isTablet ? '100px' : '140px',
+          paddingBottom: isMobile ? '40px' : '60px',
+          paddingLeft: isMobile ? '24px' : isTablet ? '32px' : '64px',
+          paddingRight: isMobile ? '24px' : isTablet ? '32px' : '64px',
         }}
       >
-        {/* Left column - Empty space for phone */}
-        <div
-          style={{
-            width: '520px',
-            flexShrink: 0,
-          }}
-        />
+        {/* Left column - Empty space for phone (desktop only) */}
+        {!isMobile && !isTablet && (
+          <div
+            style={{
+              width: '520px',
+              flexShrink: 0,
+            }}
+          />
+        )}
 
         {/* Right column - Links */}
         <div
-          className="flex-1 flex"
+          className={`flex-1 flex ${isMobile ? 'flex-col' : ''}`}
           style={{
-            gap: '80px',
-            paddingLeft: '100px',
+            gap: isMobile ? '32px' : isTablet ? '48px' : '80px',
+            paddingLeft: isMobile || isTablet ? '0' : '100px',
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
             transition: 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s',
@@ -165,10 +188,10 @@ export default function Footer() {
       <div
         className="relative w-full flex items-center justify-center"
         style={{
-          paddingTop: '40px',
-          paddingBottom: '40px',
-          paddingLeft: '64px',
-          paddingRight: '64px',
+          paddingTop: isMobile ? '32px' : '40px',
+          paddingBottom: isMobile ? '32px' : '40px',
+          paddingLeft: isMobile ? '24px' : isTablet ? '32px' : '64px',
+          paddingRight: isMobile ? '24px' : isTablet ? '32px' : '64px',
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s',
         }}

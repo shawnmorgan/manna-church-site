@@ -1,9 +1,29 @@
 /**
  * ThreeThings Section Component - Pixel-perfect from Figma
+ * Fully responsive for mobile, tablet, and desktop
  * Node ID: 56:157
  */
 
 import { useEffect, useRef, useState } from 'react';
+
+// Hook to detect screen size
+function useMediaQuery() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  return { isMobile, isTablet };
+}
 
 interface Thing {
   number: string;
@@ -17,6 +37,7 @@ interface CardScale {
 }
 
 export default function ThreeThings() {
+  const { isMobile, isTablet } = useMediaQuery();
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [cardScales, setCardScales] = useState<CardScale[]>([
@@ -92,29 +113,30 @@ export default function ThreeThings() {
       className="w-full flex flex-col items-start"
       style={{
         backgroundColor: '#222222',
-        paddingTop: '160px',
-        paddingBottom: '200px',
+        paddingTop: isMobile ? '80px' : isTablet ? '120px' : '160px',
+        paddingBottom: isMobile ? '100px' : isTablet ? '140px' : '200px',
       }}
     >
-      <div className="w-full flex items-start">
+      <div className={`w-full flex items-start ${isMobile || isTablet ? 'flex-col' : ''}`}>
         {/* Left column */}
         <div
           className="flex flex-col flex-shrink-0"
           style={{
-            width: '478px',
-            paddingLeft: '64px',
-            paddingRight: '32px',
+            width: isMobile || isTablet ? '100%' : '478px',
+            paddingLeft: isMobile ? '24px' : isTablet ? '32px' : '64px',
+            paddingRight: isMobile ? '24px' : '32px',
             gap: '20px',
-            position: 'sticky',
-            top: '96px',
+            position: isMobile || isTablet ? 'relative' : 'sticky',
+            top: isMobile || isTablet ? 'auto' : '96px',
             alignSelf: 'flex-start',
+            marginBottom: isMobile || isTablet ? '40px' : '0',
           }}
         >
           <h2
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 800,
-              fontSize: '70px',
+              fontSize: isMobile ? '42px' : isTablet ? '56px' : '70px',
               lineHeight: '1.05',
               letterSpacing: '-1.4px',
               color: 'white',
@@ -129,10 +151,10 @@ export default function ThreeThings() {
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 400,
-              fontSize: '16px',
+              fontSize: isMobile ? '14px' : '16px',
               lineHeight: '1.6',
               color: 'rgba(255, 255, 255, 0.7)',
-              maxWidth: '300px',
+              maxWidth: isMobile || isTablet ? '100%' : '300px',
             }}
           >
             Everything we do ladders to three simple commitments. These are not programs - they are the heartbeat of who we are as a church.
@@ -144,9 +166,10 @@ export default function ThreeThings() {
           ref={cardsContainerRef}
           className="flex-1 flex flex-col"
           style={{
-            width: '962px',
-            paddingRight: '64px',
-            gap: '40px',
+            width: isMobile || isTablet ? '100%' : '962px',
+            paddingRight: isMobile ? '24px' : isTablet ? '32px' : '64px',
+            paddingLeft: isMobile ? '24px' : isTablet ? '32px' : '0',
+            gap: isMobile ? '24px' : '40px',
           }}
         >
           {things.map((thing, index) => (
@@ -157,11 +180,15 @@ export default function ThreeThings() {
               style={{
                 backgroundColor: '#2d2d2d',
                 borderRadius: '4px',
-                padding: index === 0 ? '40px 40px 40px 120px' : '28px 28px 28px 120px',
-                position: 'sticky',
-                top: '96px',
+                padding: isMobile
+                  ? '24px 24px 24px 64px'
+                  : isTablet
+                  ? (index === 0 ? '32px 32px 32px 96px' : '24px 24px 24px 96px')
+                  : (index === 0 ? '40px 40px 40px 120px' : '28px 28px 28px 120px'),
+                position: isMobile || isTablet ? 'relative' : 'sticky',
+                top: isMobile || isTablet ? 'auto' : '96px',
                 transformOrigin: 'center top',
-                transform: `scale(${cardScales[index].scale}) rotate(${cardScales[index].rotate}deg)`,
+                transform: isMobile || isTablet ? 'none' : `scale(${cardScales[index].scale}) rotate(${cardScales[index].rotate}deg)`,
                 transition: 'transform 0.1s ease-out',
               }}
             >
@@ -169,8 +196,12 @@ export default function ThreeThings() {
               <div
                 className="absolute flex items-center"
                 style={{
-                  left: '40px',
-                  top: index === 0 ? '48px' : '36px',
+                  left: isMobile ? '24px' : isTablet ? '32px' : '40px',
+                  top: isMobile
+                    ? '32px'
+                    : isTablet
+                    ? (index === 0 ? '40px' : '32px')
+                    : (index === 0 ? '48px' : '36px'),
                   gap: '12px',
                   flexDirection: 'column',
                 }}
@@ -179,10 +210,10 @@ export default function ThreeThings() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 900,
-                    fontSize: '32px',
+                    fontSize: isMobile ? '24px' : '32px',
                     lineHeight: 'normal',
                     color: 'transparent',
-                    WebkitTextStroke: '1.5px #F37321',
+                    WebkitTextStroke: isMobile ? '1px #F37321' : '1.5px #F37321',
                     transform: 'rotate(90deg)',
                     whiteSpace: 'nowrap',
                   }}
@@ -192,7 +223,7 @@ export default function ThreeThings() {
                 <div
                   style={{
                     width: '2px',
-                    height: '80px',
+                    height: isMobile ? '60px' : '80px',
                     backgroundColor: '#F37321',
                     borderRadius: '999px',
                   }}
@@ -205,7 +236,7 @@ export default function ThreeThings() {
                   style={{
                     fontFamily: 'Archivo, sans-serif',
                     fontWeight: 700,
-                    fontSize: '48px',
+                    fontSize: isMobile ? '32px' : isTablet ? '40px' : '48px',
                     lineHeight: 'normal',
                     color: 'white',
                   }}
@@ -216,7 +247,7 @@ export default function ThreeThings() {
                   style={{
                     fontFamily: 'Archivo, sans-serif',
                     fontWeight: 400,
-                    fontSize: '20px',
+                    fontSize: isMobile ? '16px' : isTablet ? '18px' : '20px',
                     lineHeight: '1.6',
                     color: 'rgba(255, 255, 255, 0.7)',
                   }}

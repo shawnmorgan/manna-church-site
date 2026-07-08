@@ -1,11 +1,31 @@
 /**
  * LocationSearch Section Component - Pixel-perfect from Figma
+ * Fully responsive for mobile, tablet, and desktop
  * Node ID: 56:38
  */
 
 import { useEffect, useRef, useState } from 'react';
 import LocationCard from './LocationCard';
 import locationsData from '../data/locations.json';
+
+// Hook to detect screen size
+function useMediaQuery() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  return { isMobile, isTablet };
+}
 
 interface Location {
   id: string;
@@ -19,6 +39,7 @@ interface Location {
 }
 
 export default function LocationSearch() {
+  const { isMobile, isTablet } = useMediaQuery();
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(8);
@@ -74,23 +95,20 @@ export default function LocationSearch() {
     setVisibleCount(8);
   };
 
-  // Calculate number of rows needed
-  const rows: Location[][] = [];
-  for (let i = 0; i < visibleLocations.length; i += 4) {
-    rows.push(visibleLocations.slice(i, i + 4));
-  }
+  // Calculate number of columns based on screen size (for staggered animation)
+  const columnsPerRow = isMobile ? 1 : isTablet ? 2 : 4;
 
   return (
     <section
       ref={sectionRef}
       className="relative w-full flex flex-col items-center justify-center"
       style={{
-        minHeight: '1044px',
-        paddingTop: '240px',
-        paddingLeft: '48px',
-        paddingRight: '48px',
-        paddingBottom: '360px',
-        gap: '40px',
+        minHeight: isMobile ? '700px' : isTablet ? '900px' : '1044px',
+        paddingTop: isMobile ? '120px' : isTablet ? '180px' : '240px',
+        paddingLeft: isMobile ? '20px' : isTablet ? '32px' : '48px',
+        paddingRight: isMobile ? '20px' : isTablet ? '32px' : '48px',
+        paddingBottom: isMobile ? '180px' : isTablet ? '260px' : '360px',
+        gap: isMobile ? '24px' : '40px',
       }}
     >
       {/* Background */}
@@ -140,7 +158,7 @@ export default function LocationSearch() {
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 700,
-              fontSize: '42px',
+              fontSize: isMobile ? '28px' : isTablet ? '36px' : '42px',
               lineHeight: '1',
               color: 'white',
               textAlign: 'center',
@@ -155,8 +173,9 @@ export default function LocationSearch() {
         <div
           className="flex items-center"
           style={{
-            width: '480px',
-            height: '48px',
+            width: isMobile ? '100%' : isTablet ? '400px' : '480px',
+            maxWidth: '100%',
+            height: isMobile ? '44px' : '48px',
             backgroundColor: '#2e2e2e',
             border: '1px solid rgba(255, 255, 255, 0.2)',
             borderRadius: '2px',
@@ -191,23 +210,33 @@ export default function LocationSearch() {
         </div>
 
         {/* Location cards grid - Dynamic rows */}
-        {rows.map((row, rowIndex) => (
-          <div
-            key={`row-${rowIndex}`}
-            className="w-full flex justify-center"
-            style={{
-              gap: '24px',
-              marginTop: rowIndex === 0 ? '32px' : '0',
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-              transition: `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${0.6 + rowIndex * 0.2}s`,
-            }}
-          >
-            {row.map((location) => (
-              <LocationCard key={location.id} {...location} />
-            ))}
-          </div>
-        ))}
+        <div
+          className="w-full"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gap: isMobile ? '16px' : '24px',
+            maxWidth: isMobile ? '320px' : isTablet ? '680px' : '1360px',
+            margin: '0 auto',
+            marginTop: isMobile ? '24px' : '32px',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+            transition: `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s`,
+          }}
+        >
+          {visibleLocations.map((location, index) => (
+            <div
+              key={location.id}
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
+                transition: `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${0.6 + (Math.floor(index / columnsPerRow) * 0.2)}s`,
+              }}
+            >
+              <LocationCard {...location} />
+            </div>
+          ))}
+        </div>
 
         {/* No results message */}
         {filteredLocations.length === 0 && (

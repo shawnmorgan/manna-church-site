@@ -1,9 +1,29 @@
 /**
  * Hero Component - Pixel-perfect from Figma with entrance animations
+ * Fully responsive for mobile, tablet, and desktop
  * Node ID: 58:4
  */
 
 import { useEffect, useState, useMemo } from 'react';
+
+// Hook to detect screen size
+function useMediaQuery() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  return { isMobile, isTablet, isDesktop: !isMobile && !isTablet };
+}
 
 interface FloatingImage {
   src: string;
@@ -88,6 +108,11 @@ interface HeroProps {
 
 export default function Hero({ content }: HeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { isMobile, isTablet, isDesktop } = useMediaQuery();
+  // Add a random seed that changes on each mount to force re-shuffle
+  const [randomSeed] = useState(() => Math.random());
+  // Track which image is being clicked for animation
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   // Use Sanity images if available, otherwise fallback to random selection from hardcoded images
   const floatingImages: FloatingImage[] = useMemo(() => {
@@ -105,7 +130,7 @@ export default function Hero({ content }: HeroProps) {
       ...pos,
       src: imageSources[index],
     }));
-  }, [content?.heroCollageImages]);
+  }, [content?.heroCollageImages, randomSeed]);
 
   useEffect(() => {
     // Trigger animations after component mounts
@@ -113,12 +138,16 @@ export default function Hero({ content }: HeroProps) {
     return () => clearTimeout(timer);
   }, []);
 
+  // Responsive dimensions
+  const sectionHeight = isMobile ? '700px' : isTablet ? '800px' : '900px';
+  const sectionPadding = isMobile ? '24px' : isTablet ? '40px' : '80px';
+
   return (
     <section
       className="relative w-full flex items-center justify-center"
       style={{
-        height: '900px',
-        padding: '80px',
+        height: sectionHeight,
+        padding: sectionPadding,
         background: 'linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%)',
         overflow: 'hidden',
       }}
@@ -167,9 +196,12 @@ export default function Hero({ content }: HeroProps) {
         </div>
       </div>
 
-      {/* Floating gallery images */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      {/* Floating gallery images - hide on mobile, show limited on tablet */}
+      <div className="absolute inset-0" aria-hidden="true">
         {floatingImages.map((img, index) => {
+          // On mobile, hide all images. On tablet, show only first 6. On desktop, show all 12
+          if (isMobile) return null;
+          if (isTablet && index >= 6) return null;
           // Calculate center of viewport position
           const viewportCenterX = '50%';
           const viewportCenterY = '50%';
@@ -200,10 +232,12 @@ export default function Hero({ content }: HeroProps) {
           // Smaller images sit behind larger images (but all behind text)
           const zIndex = index >= 8 ? 1 : 2;
 
+          const isClicked = clickedIndex === index;
+
           return (
             <div
               key={index}
-              className="absolute flex items-center justify-center"
+              className="absolute flex items-center justify-center group hover:z-50"
               style={{
                 left: isLoaded ? img.left : viewportCenterX,
                 top: isLoaded ? img.top : viewportCenterY,
@@ -211,20 +245,27 @@ export default function Hero({ content }: HeroProps) {
                 opacity: isLoaded ? 1 : 0,
                 transition: `all 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}s`,
                 zIndex: zIndex,
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                setClickedIndex(index);
+                setTimeout(() => setClickedIndex(null), 200);
               }}
             >
             <div
+              className="relative transition-all duration-300 ease-out group-hover:scale-105 group-hover:shadow-2xl"
               style={{
-                position: 'relative',
                 width: `${img.width}px`,
                 height: `${img.height}px`,
                 borderRadius: img.borderRadius,
                 boxShadow: boxShadow,
+                transform: isClicked ? 'scale(0.95)' : 'scale(1)',
               }}
             >
               <img
                 src={img.src}
                 alt=""
+                className="transition-all duration-300 ease-out group-hover:brightness-110"
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -232,8 +273,15 @@ export default function Hero({ content }: HeroProps) {
                   height: '100%',
                   objectFit: 'cover',
                   borderRadius: img.borderRadius,
-                  pointerEvents: 'none',
                   maxWidth: 'none',
+                }}
+              />
+              {/* Hover overlay with subtle glow */}
+              <div
+                className="absolute inset-0 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  borderRadius: img.borderRadius,
+                  boxShadow: '0 0 20px 4px rgba(243, 115, 33, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1)',
                 }}
               />
             </div>
@@ -246,16 +294,17 @@ export default function Hero({ content }: HeroProps) {
       <div
         className="relative flex flex-col items-center"
         style={{
-          width: '920px',
-          gap: '48px',
+          width: isMobile ? '100%' : isTablet ? '90%' : '920px',
+          maxWidth: '100%',
+          gap: isMobile ? '32px' : '48px',
           zIndex: 10,
         }}
       >
         {/* Logo */}
         <div
           style={{
-            width: '316px',
-            height: '25px',
+            width: isMobile ? '220px' : isTablet ? '280px' : '316px',
+            height: isMobile ? '17px' : isTablet ? '22px' : '25px',
             overflow: 'hidden',
             position: 'relative',
             opacity: isLoaded ? 1 : 0,
@@ -275,7 +324,7 @@ export default function Hero({ content }: HeroProps) {
           style={{
             fontFamily: 'Archivo Black, sans-serif',
             fontWeight: 900,
-            fontSize: '104px',
+            fontSize: isMobile ? '48px' : isTablet ? '72px' : '104px',
             lineHeight: '0.9',
             color: 'white',
             textAlign: 'center',
@@ -323,12 +372,13 @@ export default function Hero({ content }: HeroProps) {
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 400,
-            fontSize: '20px',
+            fontSize: isMobile ? '16px' : '20px',
             lineHeight: '1.6',
             color: 'white',
             opacity: isLoaded ? 0.7 : 0,
             textAlign: 'center',
-            width: '640px',
+            width: isMobile ? '100%' : isTablet ? '90%' : '640px',
+            maxWidth: '100%',
             transform: isLoaded ? 'translateY(0)' : 'translateY(-20px)',
             transition: 'all 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.2s',
           }}

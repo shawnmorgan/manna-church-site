@@ -1,5 +1,6 @@
 /**
  * LocationCard Component - Pixel-perfect from Figma
+ * Fully responsive for mobile, tablet, and desktop
  * Node ID: 56:68 (location-card)
  */
 
@@ -29,7 +30,7 @@ export default function LocationCard({
       href={href}
       className="group block bg-white overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
       style={{
-        width: '320px',
+        width: '100%',
         height: '265px',
         borderRadius: '4px',
       }}

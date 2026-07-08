@@ -108,7 +108,7 @@ npm run build
 ```env
 PUBLIC_SANITY_PROJECT_ID=0o0tjt6s
 PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=skvTrSdZK84Ksj6gSx5xXvuwDIDFhejB7yulcqvHxxm6bZhStZpD41Xd15AohTkaBpu75JZdIorSx8PCQIzNQqC3VLiaijibNlsHXgc5B6W5gkXSmItEWLDYikgPh01Ok68ih2EMxU8V2GwaltXxe6BYvV2av2aTD6GfawgsGqnaamd5ePkO
+SANITY_API_TOKEN=[See .env file - not committed to repo]
 ```
 
 **Studio `.env`:**
@@ -118,10 +118,7 @@ SANITY_STUDIO_DATASET=production
 SANITY_STUDIO_PREVIEW_URL=https://new26.manna.church
 ```
 
-**Deploy Token (for CLI deployments):**
-```
-skmvLivwkqPikU2VDhVIjpzSxlPy1tszpHX8g5w6pEApAOvB0NvAPHPQMSGdcuEPaVKXyJA6rwtdD0tsdJkNHqRhrM3TbMM1rUitqkRGw5WfvSgpNWdwQ02mbbTgnGr0wZi1R0D4MKytgt5ZiMepHEJ26r1C7SUnKRBswWKb7aXzT6BP4wgB
-```
+**Deploy Token:** Stored securely in Vercel environment variables (not in repo)
 
 ## Issues Encountered & Resolved
 

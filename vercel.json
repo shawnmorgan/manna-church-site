@@ -1,20 +1,24 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/static/:path*",
-      "destination": "/studio/static/:path*"
+      "src": "/static/(.*)",
+      "dest": "/studio/static/$1"
     },
     {
-      "source": "/vendor/:path*",
-      "destination": "/studio/vendor/:path*"
+      "src": "/vendor/(.*)",
+      "dest": "/studio/vendor/$1"
     },
     {
-      "source": "/studio",
-      "destination": "/studio/index.html"
+      "src": "/studio/static/(.*)",
+      "dest": "/studio/static/$1"
     },
     {
-      "source": "/studio/:path*",
-      "destination": "/studio/index.html"
+      "src": "/studio/vendor/(.*)",
+      "dest": "/studio/vendor/$1"
+    },
+    {
+      "src": "/studio(/.*)?",
+      "dest": "/studio/index.html"
     }
   ],
   "headers": [

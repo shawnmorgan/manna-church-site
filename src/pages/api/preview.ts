@@ -1,5 +1,7 @@
 import type {APIRoute} from 'astro';
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({cookies, redirect, url}) => {
   // Get the redirect path from query params
   const path = url.searchParams.get('redirect') || '/';

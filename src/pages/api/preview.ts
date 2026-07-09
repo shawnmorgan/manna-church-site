@@ -5,10 +5,12 @@ export const GET: APIRoute = async ({cookies, redirect, url}) => {
   const path = url.searchParams.get('redirect') || '/';
 
   // Set a cookie to enable preview mode
+  // Use sameSite: 'none' and secure: true for iframe compatibility
   cookies.set('preview', 'true', {
     path: '/',
-    httpOnly: true,
-    sameSite: 'strict',
+    httpOnly: false, // Must be false for client-side JS to read it
+    sameSite: 'none',
+    secure: true,
     maxAge: 60 * 60, // 1 hour
   });
 

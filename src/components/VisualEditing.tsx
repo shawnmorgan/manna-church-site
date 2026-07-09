@@ -1,14 +1,19 @@
-// Visual editing will be enabled once Sanity is configured
-// Install @sanity/visual-editing package and uncomment below
+import { useEffect } from 'react';
+import { enableOverlays } from '@sanity/overlays';
 
 export default function VisualEditing() {
-  // TODO: Add visual editing once Sanity is set up
-  // useEffect(() => {
-  //   const isPreview = document.cookie.includes('preview=true');
-  //   if (!isPreview) return;
-  //   const disable = enableOverlays({ history: 'replace' });
-  //   return () => disable();
-  // }, []);
+  useEffect(() => {
+    // Only enable in preview mode
+    const isPreview = document.cookie.includes('preview=true');
+    if (!isPreview) return;
+
+    // Enable the visual editing overlays
+    const disable = enableOverlays({
+      history: 'replace',
+    });
+
+    return () => disable();
+  }, []);
 
   return null;
 }

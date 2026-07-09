@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "npm run build:studio && astro build && npm run copy:studio",
     "build:studio": "cd studio && npm install && SANITY_STUDIO_BASE_PATH=/studio npm run build",
-    "copy:studio": "mkdir -p dist/studio && cp -r studio/dist/* dist/studio/",
+    "copy:studio": "mkdir -p .vercel/output/static/studio && cp -r studio/dist/* .vercel/output/static/studio/",
     "preview": "astro preview",
     "astro": "astro"
   },

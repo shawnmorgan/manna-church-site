@@ -32,6 +32,11 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        lodash: 'lodash-es'
+      }
+    },
     optimizeDeps: {
       include: [
         'react/compiler-runtime',

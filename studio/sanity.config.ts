@@ -28,19 +28,6 @@ export default defineConfig({
           enable: '/api/preview',
         },
       },
-      resolve: {
-        // Configure how documents are previewed
-        mainDocuments: defineDocuments([
-          {
-            route: '/',
-            filter: `_type == "siteContent"`,
-          },
-          {
-            route: '/sites/:slug',
-            filter: `_type == "location" && slug.current == $slug`,
-          },
-        ]),
-      },
     }),
     visionTool(),
   ],
@@ -57,13 +44,3 @@ export default defineConfig({
     },
   },
 })
-
-// Helper function to define document routes
-function defineDocuments(docs: Array<{route: string; filter: string}>) {
-  return docs.map((doc) => ({
-    ...doc,
-    options: {
-      cache: 'no-cache' as const,
-    },
-  }))
-}

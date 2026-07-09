@@ -1783,7 +1783,7 @@ var previewClient = createClient({
 	apiVersion: "2024-01-01",
 	useCdn: false,
 	perspective: "previewDrafts",
-	token: "skjVFCVDZmCtY3dsUXKUKNaQszxT1lbIRjfw5xqzo4x7hatOnXKTB7gJWrbbEegmVkzI05Q6xakaCcLqfHtiHzoYX6eiB9k5sjg3pfNyMho8Ejm36zuvQ9wJmiYpYjN9YC7uQ1DyvZEgCriBkFI2fSbCLgb4dFsycjs8KQPdFlmgvdiuT8Qb"
+	token: void 0
 });
 imageUrlBuilder(sanityClient);
 function getClient(preview = false) {

@@ -6,10 +6,10 @@ import { sanityClient } from 'sanity:client';
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
-  const token = import.meta.env.SANITY_API_TOKEN;
+  const token = import.meta.env.SANITY_API_READ_TOKEN;
 
   if (!token) {
-    return new Response('Server misconfigured', { status: 500 });
+    return new Response('Server misconfigured: missing read token', { status: 500 });
   }
 
   const clientWithToken = sanityClient.withConfig({ token });

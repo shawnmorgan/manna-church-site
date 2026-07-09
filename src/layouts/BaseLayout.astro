@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import VisualEditing from '../components/VisualEditing';
+import { perspectiveCookieName } from '@sanity/preview-url-secret/constants';
 
 interface Props {
   title?: string;
@@ -12,8 +13,8 @@ const {
   description = 'Our mission is to glorify God by equipping His people to change their world and by planting churches with the same world-changing vision.'
 } = Astro.props;
 
-// Check if we're in preview mode
-const isPreview = Astro.cookies.get('preview')?.value === 'true';
+// Check if we're in draft mode
+const draftMode = Astro.cookies.has(perspectiveCookieName);
 ---
 
 <!DOCTYPE html>
@@ -31,6 +32,6 @@ const isPreview = Astro.cookies.get('preview')?.value === 'true';
 </head>
 <body>
   <slot />
-  {isPreview && <VisualEditing client:only="react" />}
+  {draftMode && <VisualEditing client:only="react" />}
 </body>
 </html>

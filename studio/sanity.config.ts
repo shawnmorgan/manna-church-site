@@ -23,12 +23,7 @@ export default defineConfig({
     }),
     presentationTool({
       previewUrl: {
-        // Preview URL for local development
-        draftMode: {
-          enable: '/api/draft',
-        },
-        // Use production URL when deployed
-        origin: 'https://new26.manna.church',
+        initial: 'https://new26.manna.church',
         previewMode: {
           enable: '/api/preview',
         },

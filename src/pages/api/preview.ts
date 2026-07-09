@@ -1,21 +1,31 @@
-import type {APIRoute} from 'astro';
+import type { APIRoute } from 'astro';
+import { validatePreviewUrl } from '@sanity/preview-url-secret';
+import { perspectiveCookieName } from '@sanity/preview-url-secret/constants';
+import { sanityClient } from 'sanity:client';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({cookies, redirect, url}) => {
-  // Get the redirect path from query params
-  const path = url.searchParams.get('redirect') || '/';
+export const GET: APIRoute = async ({ request, cookies, redirect }) => {
+  const token = import.meta.env.SANITY_API_TOKEN;
 
-  // Set a cookie to enable preview mode
-  // Use sameSite: 'none' and secure: true for iframe compatibility
-  cookies.set('preview', 'true', {
-    path: '/',
-    httpOnly: false, // Must be false for client-side JS to read it
+  if (!token) {
+    return new Response('Server misconfigured', { status: 500 });
+  }
+
+  const clientWithToken = sanityClient.withConfig({ token });
+  const { isValid, redirectTo = '/', studioPreviewPerspective } =
+    await validatePreviewUrl(clientWithToken, request.url);
+
+  if (!isValid) {
+    return new Response('Invalid secret', { status: 401 });
+  }
+
+  cookies.set(perspectiveCookieName, studioPreviewPerspective ?? 'drafts', {
+    httpOnly: false,
     sameSite: 'none',
     secure: true,
-    maxAge: 60 * 60, // 1 hour
+    path: '/',
   });
 
-  // Redirect to the requested page
-  return redirect(path);
+  return redirect(redirectTo, 307);
 };

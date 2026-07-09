@@ -1,13 +1,9 @@
-import type {APIRoute} from 'astro';
+import type { APIRoute } from 'astro';
+import { perspectiveCookieName } from '@sanity/preview-url-secret/constants';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({cookies, redirect}) => {
-  // Clear the preview cookie
-  cookies.delete('preview', {
-    path: '/',
-  });
-
-  // Redirect to homepage
-  return redirect('/');
+export const GET: APIRoute = async ({ cookies, redirect }) => {
+  cookies.delete(perspectiveCookieName, { path: '/' });
+  return redirect('/', 307);
 };

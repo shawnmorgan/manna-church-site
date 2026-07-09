@@ -1,4 +1,5 @@
-import { A as ExpectedImage, B as IncompatibleDescriptorOptions, G as LocalImageUsedWrongly, S as isRemoteAllowed, Z as MissingImageDimension, b as isRemoteImage, c as isRemotePath, f as removeQueryString, g as inferRemoteSize, l as joinPaths, vt as UnsupportedImageConversion, xt as AstroError, y as isESMImportedImage, yt as UnsupportedImageFormat } from "./path_DhdTeGp3.mjs";
+import { $ as AstroError, C as LocalImageUsedWrongly, X as UnsupportedImageConversion, Z as UnsupportedImageFormat, k as MissingImageDimension, s as ExpectedImage, v as IncompatibleDescriptorOptions } from "./errors-data_sKwIzwfZ.mjs";
+import { S as isRemoteAllowed, b as isRemoteImage, c as isRemotePath, f as removeQueryString, g as inferRemoteSize, l as joinPaths, y as isESMImportedImage } from "./path_CP1oRZAZ.mjs";
 //#region node_modules/astro/dist/assets/consts.js
 var VALID_SUPPORTED_FORMATS = [
 	"jpeg",

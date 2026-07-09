@@ -1,4 +1,4 @@
-import { Q as MissingMediaQueryDirective, V as InvalidComponentArgs, _t as UnavailableAstroGlobal, at as OnlyResponseCanBeReturned, dt as ResponseSentError, et as NoClientOnlyHint, k as EndpointDidNotReturnAResponse, nt as NoMatchingImport, rt as NoMatchingRenderer, xt as AstroError } from "./path_DhdTeGp3.mjs";
+import { $ as AstroError, A as MissingMediaQueryDirective, F as NoMatchingRenderer, L as OnlyResponseCanBeReturned, M as NoClientOnlyHint, P as NoMatchingImport, U as ResponseSentError, Y as UnavailableAstroGlobal, o as EndpointDidNotReturnAResponse, y as InvalidComponentArgs } from "./errors-data_sKwIzwfZ.mjs";
 import colors from "piccolore";
 import { escape } from "html-escaper";
 import { clsx } from "clsx";
@@ -777,6 +777,9 @@ function renderAllHeadContent(result) {
 	content += styles.join(sep) + links.join(sep) + scripts.join(sep);
 	content += result._metadata.extraHead.join("");
 	return markHTMLString(content);
+}
+function renderHead() {
+	return createRenderInstruction({ type: "head" });
 }
 function maybeRenderHead() {
 	return createRenderInstruction({ type: "maybe-head" });
@@ -2218,4 +2221,4 @@ function spreadAttributes(values = {}, _name, { class: scopedClassName } = {}) {
 	return markHTMLString(output);
 }
 //#endregion
-export { fetchStateSymbol as A, ASTRO_ERROR_HEADER as C, REROUTABLE_STATUS_CODES as D, REDIRECT_STATUS_CODES as E, pipelineSymbol as M, responseSentSymbol as N, appSymbol as O, isRoute500 as S, DEFAULT_404_COMPONENT as T, unescapeHTML as _, chunkToString as a, createComponent as b, isRenderTemplateResult as c, decryptString as d, generateCspDigest as f, isAstroComponentFactory as g, isRenderInstruction as h, renderComponent as i, originPathnameSymbol as j, clientAddressSymbol as k, renderTemplate as l, addAttribute as m, renderPage as n, createSlotValueFromString as o, maybeRenderHead as p, renderJSX as r, renderSlotToString as s, spreadAttributes as t, decodeKey as u, renderEndpoint as v, ASTRO_GENERATOR as w, isRoute404 as x, createAstro as y };
+export { appSymbol as A, isRoute404 as C, DEFAULT_404_COMPONENT as D, ASTRO_GENERATOR as E, responseSentSymbol as F, fetchStateSymbol as M, originPathnameSymbol as N, REDIRECT_STATUS_CODES as O, pipelineSymbol as P, createComponent as S, ASTRO_ERROR_HEADER as T, isRenderInstruction as _, chunkToString as a, renderEndpoint as b, renderSlotToString as c, decodeKey as d, decryptString as f, addAttribute as g, renderHead as h, renderComponent as i, clientAddressSymbol as j, REROUTABLE_STATUS_CODES as k, isRenderTemplateResult as l, maybeRenderHead as m, renderPage as n, createSlotValueFromString as o, generateCspDigest as p, renderJSX as r, renderSlot as s, spreadAttributes as t, renderTemplate as u, isAstroComponentFactory as v, isRoute500 as w, createAstro as x, unescapeHTML as y };

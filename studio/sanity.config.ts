@@ -12,10 +12,10 @@ export default defineConfig({
   name: 'default',
   title: 'Manna Church',
 
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || '',
-  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+  projectId: '0o0tjt6s',
+  dataset: 'production',
 
-  basePath: process.env.SANITY_STUDIO_BASE_PATH || '/studio',
+  basePath: '/studio',
 
   plugins: [
     structureTool({

@@ -27,8 +27,8 @@ export default defineConfig({
         draftMode: {
           enable: '/api/draft',
         },
-        // Use the preview URL from environment variable or default to localhost
-        origin: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321',
+        // Use production URL when deployed
+        origin: 'https://new26.manna.church',
         previewMode: {
           enable: '/api/preview',
         },

@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-import VisualEditing from '../components/VisualEditing';
-import { perspectiveCookieName } from '@sanity/preview-url-secret/constants';
+import SanityVisualEditing from '../components/SanityVisualEditing';
 
 interface Props {
   title?: string;
@@ -14,6 +13,7 @@ const {
 } = Astro.props;
 
 // Check if we're in draft mode
+const perspectiveCookieName = '__sanity_preview_perspective';
 const draftMode = Astro.cookies.has(perspectiveCookieName);
 ---
 
@@ -32,6 +32,6 @@ const draftMode = Astro.cookies.has(perspectiveCookieName);
 </head>
 <body>
   <slot />
-  {draftMode && <VisualEditing client:only="react" />}
+  {draftMode && <SanityVisualEditing client:only="react" />}
 </body>
 </html>

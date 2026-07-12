@@ -6,13 +6,12 @@ import VideoSection from '../components/VideoSection';
 import ThreeThings from '../components/ThreeThings';
 import MannaApp from '../components/MannaApp';
 import Footer from '../components/Footer';
-import {sanityFetch} from '../lib/sanity';
+import {loadQuery, getDraftModeProps} from '../lib/load-query';
 
-// Check if we're in preview mode
-const isPreview = Astro.cookies.get('preview')?.value === 'true';
+export const prerender = false;
 
-// Fetch homepage content from Sanity
-const homeContent = await sanityFetch({
+// Fetch homepage content from Sanity with visual editing support
+const {data: homeContent} = await loadQuery({
   query: `*[_type == "siteContent" && _id == "homepage"][0] {
     _id,
     heroTitle,
@@ -39,11 +38,11 @@ const homeContent = await sanityFetch({
     appStoreUrl,
     playStoreUrl
   }`,
-  preview: isPreview,
-}).catch(() => null);
+  ...getDraftModeProps(Astro.cookies),
+});
 
 // Fetch locations for the search section
-const locations = await sanityFetch({
+const {data: locations} = await loadQuery({
   query: `*[_type == "location"] | order(name asc) {
     _id,
     name,
@@ -53,8 +52,8 @@ const locations = await sanityFetch({
     state,
     "image": featuredImage.asset->url
   }`,
-  preview: isPreview,
-}).catch(() => []);
+  ...getDraftModeProps(Astro.cookies),
+});
 ---
 
 <BaseLayout>

@@ -1,36 +1,24 @@
-import type { ClientPerspective, QueryParams } from '@sanity/client';
+import type { QueryParams } from '@sanity/client';
 import { sanityClient } from 'sanity:client';
 
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === 'true';
 const token = import.meta.env.SANITY_API_READ_TOKEN;
-
-function parsePerspective(cookie: string | undefined): ClientPerspective | undefined {
-  if (!cookie) return undefined;
-  try {
-    const decoded = decodeURIComponent(cookie);
-    // Handle both string and object perspectives
-    if (decoded.startsWith('{')) {
-      return JSON.parse(decoded) as ClientPerspective;
-    }
-    return decoded as ClientPerspective;
-  } catch {
-    return undefined;
-  }
-}
 
 export async function loadQuery<QueryResponse>({
   query,
   params,
-  perspectiveCookie = undefined,
 }: {
   query: string;
   params?: QueryParams;
-  perspectiveCookie?: string | undefined;
 }) {
-  const draftMode = perspectiveCookie ? true : false;
+  if (visualEditingEnabled && !token) {
+    throw new Error(
+      'The `SANITY_API_READ_TOKEN` environment variable is required in Visual Editing mode.',
+    );
+  }
 
-  const perspective: ClientPerspective = draftMode
-    ? (parsePerspective(perspectiveCookie) ?? 'drafts')
-    : 'published';
+  const perspective = visualEditingEnabled ? 'drafts' : 'published';
 
   const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(
     query,
@@ -38,9 +26,10 @@ export async function loadQuery<QueryResponse>({
     {
       filterResponse: false,
       perspective,
-      resultSourceMap: draftMode ? 'withKeyArraySelector' : false,
-      stega: draftMode,
-      ...(draftMode ? { token } : {}),
+      resultSourceMap: visualEditingEnabled ? 'withKeyArraySelector' : false,
+      stega: visualEditingEnabled,
+      ...(visualEditingEnabled ? { token } : {}),
+      useCdn: !visualEditingEnabled,
     },
   );
 
@@ -48,12 +37,5 @@ export async function loadQuery<QueryResponse>({
     data: result,
     sourceMap: resultSourceMap,
     perspective,
-  };
-}
-
-export function getDraftModeProps(cookies: any) {
-  const perspectiveCookieName = '__sanity_preview_perspective';
-  return {
-    perspectiveCookie: cookies.get(perspectiveCookieName)?.value ?? undefined,
   };
 }

@@ -6,7 +6,7 @@ import VideoSection from '../components/VideoSection';
 import ThreeThings from '../components/ThreeThings';
 import MannaApp from '../components/MannaApp';
 import Footer from '../components/Footer';
-import {loadQuery, getDraftModeProps} from '../lib/load-query';
+import {loadQuery} from '../lib/load-query';
 
 export const prerender = false;
 
@@ -38,7 +38,6 @@ const {data: homeContent} = await loadQuery({
     appStoreUrl,
     playStoreUrl
   }`,
-  ...getDraftModeProps(Astro.cookies),
 });
 
 // Fetch locations for the search section
@@ -52,7 +51,6 @@ const {data: locations} = await loadQuery({
     state,
     "image": featuredImage.asset->url
   }`,
-  ...getDraftModeProps(Astro.cookies),
 });
 ---
 

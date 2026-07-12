@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import SanityVisualEditing from '../components/SanityVisualEditing';
+import { VisualEditing } from '@sanity/astro/visual-editing';
 
 interface Props {
   title?: string;
@@ -12,9 +12,11 @@ const {
   description = 'Our mission is to glorify God by equipping His people to change their world and by planting churches with the same world-changing vision.'
 } = Astro.props;
 
-// Check if we're in draft mode
-const perspectiveCookieName = '__sanity_preview_perspective';
-const draftMode = Astro.cookies.has(perspectiveCookieName);
+// Visual editing is controlled by an environment variable so the Presentation
+// tool's iframe always has the overlay component present to establish the
+// comlink connection.
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === 'true';
 ---
 
 <!DOCTYPE html>
@@ -32,6 +34,6 @@ const draftMode = Astro.cookies.has(perspectiveCookieName);
 </head>
 <body>
   <slot />
-  {draftMode && <SanityVisualEditing client:only="react" />}
+  <VisualEditing enabled={visualEditingEnabled} />
 </body>
 </html>

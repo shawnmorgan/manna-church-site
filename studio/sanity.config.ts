@@ -26,9 +26,7 @@ export default defineConfig({
       resolve,
       previewUrl: {
         initial: 'https://new26.manna.church',
-        previewMode: {
-          enable: '/api/preview',
-        },
+        preview: '/',
       },
     }),
     visionTool(),

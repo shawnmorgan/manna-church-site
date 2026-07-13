@@ -13,6 +13,10 @@ interface LocationCardProps {
   state: string;
   badge?: string;
   href?: string;
+  cardAttr?: string;
+  nameAttr?: string;
+  typeAttr?: string;
+  cityAttr?: string;
 }
 
 export default function LocationCard({
@@ -24,10 +28,15 @@ export default function LocationCard({
   state,
   badge,
   href = '#',
+  cardAttr,
+  nameAttr,
+  typeAttr,
+  cityAttr,
 }: LocationCardProps) {
   return (
     <a
       href={href}
+      data-sanity={cardAttr}
       className="group block bg-white overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
       style={{
         width: '100%',
@@ -96,6 +105,7 @@ export default function LocationCard({
         {/* Text content */}
         <div className="flex flex-col" style={{ gap: '8px', width: '184px' }}>
           <h3
+            data-sanity={nameAttr}
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 700,
@@ -107,6 +117,7 @@ export default function LocationCard({
             {name}
           </h3>
           <p
+            data-sanity={typeAttr}
             style={{
               fontFamily: 'Archivo Narrow, sans-serif',
               fontWeight: 600,
@@ -118,6 +129,7 @@ export default function LocationCard({
             {type}
           </p>
           <p
+            data-sanity={cityAttr}
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 500,

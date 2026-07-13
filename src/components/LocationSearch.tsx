@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import LocationCard from './LocationCard';
 import locationsData from '../data/locations.json';
+import { sanityAttr } from '../lib/sanity-attr';
 
 // Hook to detect screen size
 function useMediaQuery() {
@@ -36,10 +37,49 @@ interface Location {
   state: string;
   badge?: string;
   link: string;
+  docId?: string;
+  docType?: string;
 }
 
-export default function LocationSearch() {
+interface SanityLocation {
+  _id?: string;
+  _type?: string;
+  name?: string;
+  slug?: { current?: string } | string;
+  type?: string;
+  city?: string;
+  state?: string;
+  image?: string;
+}
+
+interface LocationSearchProps {
+  locations?: SanityLocation[];
+}
+
+// Normalize a Sanity location document into the card's shape.
+function normalizeSanityLocation(loc: SanityLocation): Location {
+  const slug =
+    typeof loc.slug === 'string' ? loc.slug : loc.slug?.current;
+  return {
+    id: loc._id || slug || loc.name || Math.random().toString(),
+    image: loc.image || '/assets/images/locations/placeholder.jpg',
+    name: loc.name || '',
+    type: loc.type || '',
+    city: loc.city || '',
+    state: loc.state || '',
+    link: slug ? `/${slug}` : '#',
+    docId: loc._id,
+    docType: loc._type,
+  };
+}
+
+export default function LocationSearch({ locations }: LocationSearchProps) {
   const { isMobile, isTablet } = useMediaQuery();
+  // Prefer live Sanity data (enables Presentation overlays); fall back to json.
+  const sourceLocations: Location[] =
+    locations && locations.length > 0
+      ? locations.map(normalizeSanityLocation)
+      : (locationsData as Location[]);
   const [isVisible, setIsVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(8);
@@ -65,7 +105,7 @@ export default function LocationSearch() {
   }, []);
 
   // Filter locations based on search query
-  const filteredLocations = (locationsData as Location[]).filter((location) => {
+  const filteredLocations = sourceLocations.filter((location) => {
     if (!searchQuery.trim()) return true;
 
     const query = searchQuery.toLowerCase();
@@ -233,7 +273,19 @@ export default function LocationSearch() {
                 transition: `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${0.6 + (Math.floor(index / columnsPerRow) * 0.2)}s`,
               }}
             >
-              <LocationCard {...location} />
+              <LocationCard
+                image={location.image}
+                name={location.name}
+                type={location.type}
+                city={location.city}
+                state={location.state}
+                badge={location.badge}
+                href={location.link}
+                cardAttr={sanityAttr(location.docId, location.docType, '')}
+                nameAttr={sanityAttr(location.docId, location.docType, 'name')}
+                typeAttr={sanityAttr(location.docId, location.docType, 'type')}
+                cityAttr={sanityAttr(location.docId, location.docType, 'city')}
+              />
             </div>
           ))}
         </div>

@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { sanityAttr } from '../lib/sanity-attr';
 
 // Hook to detect screen size
 function useMediaQuery() {
@@ -26,6 +27,8 @@ function useMediaQuery() {
 
 interface VideoSectionProps {
   content?: {
+    _id?: string;
+    _type?: string;
     videoUrl?: string;
     videoText?: string;
   };
@@ -86,6 +89,7 @@ export default function VideoSection({ content }: VideoSectionProps) {
 
         {/* Text Below */}
         <p
+          data-sanity={sanityAttr(content?._id, content?._type, 'videoText')}
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 400,

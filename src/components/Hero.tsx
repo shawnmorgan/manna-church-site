@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useState, useMemo } from 'react';
+import { sanityAttr } from '../lib/sanity-attr';
 
 // Hook to detect screen size
 function useMediaQuery() {
@@ -100,6 +101,8 @@ function shuffleArray<T>(array: T[]): T[] {
 
 interface HeroProps {
   content?: {
+    _id?: string;
+    _type?: string;
     heroTitle?: string;
     heroSubtitle?: string;
     heroCollageImages?: string[];
@@ -109,6 +112,13 @@ interface HeroProps {
 export default function Hero({ content }: HeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
+
+  // Text comes from Sanity so Presentation overlays can attach to it. Fallbacks
+  // keep the design intact if the CMS is unreachable.
+  const heroTitle = content?.heroTitle || 'A Vision to Change the World';
+  const heroSubtitle =
+    content?.heroSubtitle ||
+    'Our mission is to glorify God by equipping His people to change their world and by planting churches with the same world-changing vision.';
   // Add a random seed that changes on each mount to force re-shuffle
   const [randomSeed] = useState(() => Math.random());
   // Track which image is being clicked for animation
@@ -320,7 +330,10 @@ export default function Hero({ content }: HeroProps) {
         </div>
 
         {/* Headline */}
+        {/* Headline - bound to Sanity heroTitle (uppercase via CSS so the
+            stega-encoded characters survive for click-to-edit overlays) */}
         <h1
+          data-sanity={sanityAttr(content?._id, content?._type, 'heroTitle')}
           style={{
             fontFamily: 'Archivo Black, sans-serif',
             fontWeight: 900,
@@ -329,46 +342,19 @@ export default function Hero({ content }: HeroProps) {
             color: 'white',
             textAlign: 'center',
             width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            textTransform: 'uppercase',
             textShadow: '0px 4px 12px rgba(0, 0, 0, 0.6), 0px 2px 4px rgba(0, 0, 0, 0.4)',
+            opacity: isLoaded ? 1 : 0,
+            transform: `scale(${isLoaded ? 1 : 0.3})`,
+            transition: 'all 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.0s',
           }}
         >
-          {/* Part 1: "A VISION TO" - appears at 1.0s */}
-          <div
-            style={{
-              opacity: isLoaded ? 1 : 0,
-              transform: `scale(${isLoaded ? 1 : 0.3})`,
-              transition: 'all 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.0s',
-            }}
-          >
-            A VISION TO
-          </div>
-          {/* Part 2: "CHANGE THE" - appears at 2.0s */}
-          <div
-            style={{
-              opacity: isLoaded ? 1 : 0,
-              transform: `scale(${isLoaded ? 1 : 0.3})`,
-              transition: 'all 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.0s',
-            }}
-          >
-            CHANGE THE
-          </div>
-          {/* Part 3: "WORLD" - appears at 2.6s */}
-          <div
-            style={{
-              opacity: isLoaded ? 1 : 0,
-              transform: `scale(${isLoaded ? 1 : 0.3})`,
-              transition: 'all 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.6s',
-            }}
-          >
-            WORLD
-          </div>
+          {heroTitle}
         </h1>
 
-        {/* Body text */}
+        {/* Body text - bound to Sanity heroSubtitle */}
         <p
+          data-sanity={sanityAttr(content?._id, content?._type, 'heroSubtitle')}
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 400,
@@ -383,7 +369,7 @@ export default function Hero({ content }: HeroProps) {
             transition: 'all 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.2s',
           }}
         >
-          Our mission is to glorify God by equipping His people to change their world and by planting churches with the same world-changing vision.
+          {heroSubtitle}
         </p>
 
         {/* Down Arrow */}

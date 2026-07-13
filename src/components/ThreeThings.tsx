@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { sanityAttr } from '../lib/sanity-attr';
 
 // Hook to detect screen size
 function useMediaQuery() {
@@ -25,10 +26,21 @@ function useMediaQuery() {
   return { isMobile, isTablet };
 }
 
-interface Thing {
-  number: string;
-  title: string;
-  description: string;
+interface ThreeThingsCard {
+  _key?: string;
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+}
+
+interface ThreeThingsProps {
+  content?: {
+    _id?: string;
+    _type?: string;
+    threeThingsTitle?: string;
+    threeThingsDescription?: string;
+    threeThingsCards?: ThreeThingsCard[];
+  };
 }
 
 interface CardScale {
@@ -36,7 +48,29 @@ interface CardScale {
   rotate: number;
 }
 
-export default function ThreeThings() {
+// Fallback design copy if the CMS is unreachable.
+const FALLBACK_CARDS: ThreeThingsCard[] = [
+  {
+    _key: 'card-1',
+    eyebrow: '01',
+    title: 'Love God',
+    body: 'We strive to provide inspiring worship experiences. We call them experiences because our goal is to passionately pursue the Presence of God and make much of His glory. Though we are one church that meets in many locations, each of our experiences is designed to meet this goal.',
+  },
+  {
+    _key: 'card-2',
+    eyebrow: '02',
+    title: 'Love Each Other',
+    body: 'We believe that the church of Jesus Christ is not a building or a location or even just a weekend experience. We believe that the church is people, and people were created to be in relationship. Our church engages in relationship and discipleship through our small group system.',
+  },
+  {
+    _key: 'card-3',
+    eyebrow: '03',
+    title: 'Love The World',
+    body: "We believe we're called to change the world, and we prioritize an intentional outreach strategy by equipping believers to serve our community and the places they live and work. For Manna, serving is an incredible opportunity to show people the love of Jesus, no strings attached.",
+  },
+];
+
+export default function ThreeThings({ content }: ThreeThingsProps) {
   const { isMobile, isTablet } = useMediaQuery();
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -46,26 +80,16 @@ export default function ThreeThings() {
     { scale: 1, rotate: 0 },
   ]);
 
-  const things: Thing[] = [
-    {
-      number: '01',
-      title: 'Love God',
-      description:
-        'We strive to provide inspiring worship experiences. We call them experiences because our goal is to passionately pursue the Presence of God and make much of His glory. Though we are one church that meets in many locations, each of our experiences is designed to meet this goal.',
-    },
-    {
-      number: '02',
-      title: 'Love Each Other',
-      description:
-        'We believe that the church of Jesus Christ is not a building or a location or even just a weekend experience. We believe that the church is people, and people were created to be in relationship. Our church engages in relationship and discipleship through our small group system.',
-    },
-    {
-      number: '03',
-      title: 'Love The World',
-      description:
-        "We believe we're called to change the world, and we prioritize an intentional outreach strategy by equipping believers to serve our community and the places they live and work. For Manna, serving is an incredible opportunity to show people the love of Jesus, no strings attached.",
-    },
-  ];
+  const docId = content?._id;
+  const docType = content?._type;
+  const sectionTitle = content?.threeThingsTitle || 'We Do Three Things';
+  const sectionDescription =
+    content?.threeThingsDescription ||
+    'Everything we do ladders to three simple commitments. These are not programs - they are the heartbeat of who we are as a church.';
+  const cards: ThreeThingsCard[] =
+    content?.threeThingsCards && content.threeThingsCards.length > 0
+      ? content.threeThingsCards
+      : FALLBACK_CARDS;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,6 +157,7 @@ export default function ThreeThings() {
           }}
         >
           <h2
+            data-sanity={sanityAttr(docId, docType, 'threeThingsTitle')}
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 800,
@@ -141,13 +166,14 @@ export default function ThreeThings() {
               letterSpacing: '-1.4px',
               color: 'white',
               textTransform: 'uppercase',
-              whiteSpace: 'pre-wrap',
+              maxWidth: isMobile || isTablet ? '100%' : '340px',
             }}
           >
-            {'We Do \nThree \nThings'}
+            {sectionTitle}
           </h2>
 
           <p
+            data-sanity={sanityAttr(docId, docType, 'threeThingsDescription')}
             style={{
               fontFamily: 'Archivo, sans-serif',
               fontWeight: 400,
@@ -157,7 +183,7 @@ export default function ThreeThings() {
               maxWidth: isMobile || isTablet ? '100%' : '300px',
             }}
           >
-            Everything we do ladders to three simple commitments. These are not programs - they are the heartbeat of who we are as a church.
+            {sectionDescription}
           </p>
         </div>
 
@@ -172,10 +198,14 @@ export default function ThreeThings() {
             gap: isMobile ? '24px' : '40px',
           }}
         >
-          {things.map((thing, index) => (
+          {cards.map((thing, index) => {
+            const cardKey = thing._key || String(index);
+            const cardPath = `threeThingsCards[_key=="${cardKey}"]`;
+            return (
             <div
-              key={thing.number}
+              key={cardKey}
               ref={(el) => (cardRefs.current[index] = el)}
+              data-sanity={sanityAttr(docId, docType, cardPath)}
               className="relative flex items-start"
               style={{
                 backgroundColor: '#2d2d2d',
@@ -217,8 +247,9 @@ export default function ThreeThings() {
                     transform: 'rotate(90deg)',
                     whiteSpace: 'nowrap',
                   }}
+                  data-sanity={sanityAttr(docId, docType, `${cardPath}.eyebrow`)}
                 >
-                  {thing.number}
+                  {thing.eyebrow}
                 </p>
                 <div
                   style={{
@@ -233,6 +264,7 @@ export default function ThreeThings() {
               {/* Content */}
               <div className="flex flex-col flex-1" style={{ gap: '6px' }}>
                 <h3
+                  data-sanity={sanityAttr(docId, docType, `${cardPath}.title`)}
                   style={{
                     fontFamily: 'Archivo, sans-serif',
                     fontWeight: 700,
@@ -244,6 +276,7 @@ export default function ThreeThings() {
                   {thing.title}
                 </h3>
                 <p
+                  data-sanity={sanityAttr(docId, docType, `${cardPath}.body`)}
                   style={{
                     fontFamily: 'Archivo, sans-serif',
                     fontWeight: 400,
@@ -252,11 +285,12 @@ export default function ThreeThings() {
                     color: 'rgba(255, 255, 255, 0.7)',
                   }}
                 >
-                  {thing.description}
+                  {thing.body}
                 </p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

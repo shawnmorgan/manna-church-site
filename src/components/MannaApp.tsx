@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { sanityAttr } from '../lib/sanity-attr';
 
 // Hook to detect screen size
 function useMediaQuery() {
@@ -28,13 +29,16 @@ function useMediaQuery() {
 interface Feature {
   icon: string;
   text: string;
+  key: string;
 }
 
 interface MannaAppProps {
   content?: {
+    _id?: string;
+    _type?: string;
     appTitle?: string;
     appSubtitle?: string;
-    appFeatures?: Array<{ feature: string }>;
+    appFeatures?: Array<{ _key?: string; feature: string }>;
     appStoreUrl?: string;
     playStoreUrl?: string;
   };
@@ -66,10 +70,10 @@ export default function MannaApp({ content }: MannaAppProps) {
 
   // Default features
   const defaultFeatures: Feature[] = [
-    { icon: '/assets/icons/play.svg', text: 'Watch sermons on demand' },
-    { icon: '/assets/icons/bell.svg', text: 'Get event reminders' },
-    { icon: '/assets/icons/users.svg', text: 'Connect with your group' },
-    { icon: '/assets/icons/credit-card.svg', text: 'Give online easily' },
+    { icon: '/assets/icons/play.svg', text: 'Watch sermons on demand', key: 'feature-0' },
+    { icon: '/assets/icons/bell.svg', text: 'Get event reminders', key: 'feature-1' },
+    { icon: '/assets/icons/users.svg', text: 'Connect with your group', key: 'feature-2' },
+    { icon: '/assets/icons/credit-card.svg', text: 'Give online easily', key: 'feature-3' },
   ];
 
   // Map Sanity features to component format
@@ -84,9 +88,12 @@ export default function MannaApp({ content }: MannaAppProps) {
     ? content.appFeatures.map((f, i) => ({
         icon: featureIcons[i] || featureIcons[0],
         text: f.feature,
+        key: f._key || String(i),
       }))
     : defaultFeatures;
 
+  const docId = content?._id;
+  const docType = content?._type;
   const title = content?.appTitle || 'Manna On the Move';
   const subtitle = content?.appSubtitle || 'Download the Manna Church app and stay connected to your community.';
   const appStoreUrl = content?.appStoreUrl || 'https://apps.apple.com/app/manna-church';
@@ -177,6 +184,7 @@ export default function MannaApp({ content }: MannaAppProps) {
         />
 
         <h2
+          data-sanity={sanityAttr(docId, docType, 'appTitle')}
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 800,
@@ -194,6 +202,7 @@ export default function MannaApp({ content }: MannaAppProps) {
         </h2>
 
         <p
+          data-sanity={sanityAttr(docId, docType, 'appSubtitle')}
           style={{
             fontFamily: 'Archivo, sans-serif',
             fontWeight: 400,
@@ -212,7 +221,8 @@ export default function MannaApp({ content }: MannaAppProps) {
         <div className="flex flex-col" style={{ gap: '14px' }}>
           {features.map((feature, index) => (
             <div
-              key={index}
+              key={feature.key}
+              data-sanity={sanityAttr(docId, docType, `appFeatures[_key=="${feature.key}"].feature`)}
               className="flex items-center"
               style={{
                 gap: '12px',

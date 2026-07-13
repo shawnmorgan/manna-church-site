@@ -14,6 +14,7 @@ export const prerender = false;
 const {data: homeContent} = await loadQuery({
   query: `*[_type == "siteContent" && _id == "homepage"][0] {
     _id,
+    _type,
     heroTitle,
     heroSubtitle,
     "heroBackgroundImage": heroBackgroundImage.asset->url,
@@ -24,6 +25,7 @@ const {data: homeContent} = await loadQuery({
     threeThingsTitle,
     threeThingsDescription,
     threeThingsCards[] {
+      _key,
       eyebrow,
       title,
       body,
@@ -32,6 +34,7 @@ const {data: homeContent} = await loadQuery({
     appTitle,
     appSubtitle,
     appFeatures[] {
+      _key,
       feature
     },
     "appMockupImage": appMockupImage.asset->url,
@@ -44,6 +47,7 @@ const {data: homeContent} = await loadQuery({
 const {data: locations} = await loadQuery({
   query: `*[_type == "location"] | order(name asc) {
     _id,
+    _type,
     name,
     slug,
     type,

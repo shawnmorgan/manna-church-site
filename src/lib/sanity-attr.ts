@@ -23,7 +23,10 @@ export function sanityAttr(
   type?: string,
   path?: string,
 ): string | undefined {
-  if (!id || !type || !projectId || !dataset) return undefined;
+  // `createDataAttribute` throws "`path` is required" for an empty path, which
+  // during SSR would crash the whole page render — so bail out unless every
+  // required piece is present.
+  if (!id || !type || !path || !projectId || !dataset) return undefined;
 
   // In "drafts" perspective Sanity may return a `drafts.` prefixed id; the
   // overlay resolver expects the published document id.
@@ -35,6 +38,6 @@ export function sanityAttr(
     baseUrl,
     id: cleanId,
     type,
-    path: path ?? '',
+    path,
   }).toString();
 }

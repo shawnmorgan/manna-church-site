@@ -7,8 +7,10 @@ export default defineCliConfig({
   },
   studioHost: 'manna-church',
   /**
-   * Enable auto-updates for studios.
-   * Learn more at https://www.sanity.io/docs/cli#auto-updates
+   * Auto-updates are disabled so the deployed studio runs the exact versions
+   * bundled at build time (sanity v3 + @sanity/presentation v1). With
+   * auto-updates on, the runtime loaded Sanity v4 core modules from
+   * modules.sanity-cdn.com, which broke the v3-configured Presentation tool.
    */
-  autoUpdates: true,
+  autoUpdates: false,
 })

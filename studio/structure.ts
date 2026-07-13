@@ -1,5 +1,8 @@
 import {StructureBuilder} from 'sanity/structure'
-import {HomeIcon, PinIcon, CogIcon, ImagesIcon} from '@sanity/icons'
+import {HomeIcon} from '@sanity/icons/Home'
+import {PinIcon} from '@sanity/icons/Pin'
+import {CogIcon} from '@sanity/icons/Cog'
+import {ImagesIcon} from '@sanity/icons/Images'
 
 export const structure = (S: StructureBuilder) =>
   S.list()
